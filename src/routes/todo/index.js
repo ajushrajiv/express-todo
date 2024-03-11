@@ -26,11 +26,7 @@ const TodoRouter = Router();
 //http://localhost:5030/v1/todo/todos
 TodoRouter.get("/todos", async (req, res) => {
   const todos = await TodoModel.findAll();
-  if (todos.length == 0) {
-    res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
-    return;
-  }
-  res.json(todos);
+  res.status(StatusCodes.OK).send(todos);
 });
 
 //return a single todo
@@ -47,7 +43,7 @@ TodoRouter.get("/todoid", async (req, res) => {
   //const todo = await TodoModel.findByPk(todoId);
   //({ where: { title: 'My Title' } })
   const todo = await TodoModel.findOne({ where: { id: todoId } });
-  res.json({ todo: todo });
+  res.status(StatusCodes.OK).json({ todo: todo });
 });
 
 //return todos based on userId
@@ -55,22 +51,11 @@ TodoRouter.get("/todoid", async (req, res) => {
 // key: userId , value:1
 
 TodoRouter.get("/byuserid", async (req, res) => {
-  const userId = parseInt(req.query.userId);
-  //const userid =req.body.userId;
-  // console.log(userId)
-  // if(!userId){
-  //     res.status(StatusCodes.BAD_REQUEST)
-  //     .send(ReasonPhrases.BAD_REQUEST)
-  //     return;
-  // }
+  const userId = req.query.userId;
 
-  // const userTodos = todos.filter(
-  //         (todo) =>
-  //         todo.userId === userid);
+  const todos = await TodoModel.findAll({ where: { userId } });
 
-  const todo = await TodoModel.findOne({ where: { userId: userId } });
-
-  res.status(StatusCodes.OK).json({ todo: todo });
+  res.status(StatusCodes.OK).json( { todos: todos } );
 });
 
 //add a single todo
