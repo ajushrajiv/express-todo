@@ -7,10 +7,6 @@ describe("GET /v1/todo/todos", () => {
       .get("/v1/todo/todos")
       .expect("Content-Type", /json/)
       .expect(200);
-    
-    //   console.log('Response Status:', response.status);
-    //   console.log('Response Body:', response.body);
-    //   console.log('Content-Type:', response.headers['content-type']);
 
     expect(response.body).toEqual([]);
   });
@@ -23,10 +19,6 @@ describe("GET /v1/todo/todoid", () => {
         .query({ todoId: 'validTodoId' })
         .expect("Content-Type", /json/)
         .expect(200);
-      
-        // console.log('Response Status:', response.status);
-        // console.log('Response Body:', response.body);
-        // console.log('Content-Type:', response.headers['content-type']);
   
       expect(response.body).toEqual({ "todo": null });
     });
