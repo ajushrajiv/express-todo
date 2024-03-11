@@ -34,7 +34,7 @@ TodoRouter.get("/todos", async (req, res) => {
 //key: todoId , value:1
 
 TodoRouter.get("/todoid", async (req, res) => {
-  const todoId = parseInt(req.query.todoId);
+  const todoId = req.query.todoId;
   if (!todoId) {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
@@ -43,7 +43,7 @@ TodoRouter.get("/todoid", async (req, res) => {
   //const todo = await TodoModel.findByPk(todoId);
   //({ where: { title: 'My Title' } })
   const todo = await TodoModel.findOne({ where: { id: todoId } });
-  res.status(StatusCodes.OK).json({ todo: todo });
+  res.status(StatusCodes.OK).json({ todo });
 });
 
 //return todos based on userId
