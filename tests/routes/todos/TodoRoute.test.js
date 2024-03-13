@@ -97,4 +97,23 @@ describe("Test Mutations (PUT,POST, DELETE)", () => {
     expect( myTodos.updatedTodo.completed).toEqual(true);
     expect( myTodos.updatedTodo.doBefore).toEqual("2023-11-11T00:00:00.000Z");
   });
+
+  test("Test mark Object", async () => {
+    const response = await request(app)
+      .put(`/v1/todo/marktodo`)
+      .send({
+        id: 1,
+        newCompleted: false
+      })
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+      
+    const myTodos = response.body;
+    console.log("MY TODOS MARK TODO ",myTodos.updatedTodo)
+
+    expect( myTodos.updatedTodo.completed).toEqual(false);
+  });
+
+  
 });
