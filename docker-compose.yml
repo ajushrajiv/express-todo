@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=weather123456
+      - MYSQL_DATABASE=task_planner
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mysql_data:/var/lib/mysql # Persist data
+  my-node-app:
+    restart: on-failure
+    build: .
+    ports:
+      - 5030:5030
+    environment:
+      - PORT=5030
+      - DB_USERNAME=root
+      - DB_PASSWORD=weather123456
+      - DB_NAME=task_planner
+      - NODE_ENV=dev
+      - DB_HOST=db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
