@@ -1,0 +1,21 @@
+name: test-express-docker
+
+on: workflow_dispatch
+
+jobs: 
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: Build the Docker images
+      run: docker-compose build
+    - name: Run the docker compose
+      run: docker-compose up -d
+    - name: Install Dependencies
+      run: npm i
+    - name: Run tests
+      run: npm run test
+    - name: finish docker down
+      run: docker-compose down
+
