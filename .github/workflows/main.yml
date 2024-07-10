@@ -15,6 +15,12 @@ jobs:
     - name: Install Dependencies
       run: npm i
     - name: Run tests
+      env:
+          DB_USERNAME: ${{}}
+          DB_PASSWORD: ${{}}
+          DB_NAME: test_task
+          DB_HOST: 127.0.0.1
+          PORT: 5030
       run: npm run test
     - name: finish docker down
       run: docker-compose down
