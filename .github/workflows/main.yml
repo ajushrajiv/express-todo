@@ -23,7 +23,7 @@ jobs:
 
     - name: Check MySQL health
       run: |
-        until mysqladmin ping -h 127.0.0.1 -u ${{secrets.DB_USERNAME}} -p${{ secrets.DB_PASSWORD }}; do
+        until mysqladmin ping -h 127.0.0.1 -u ${{secrets.DB_USERNAME}} -p ${{ secrets.DB_PASSWORD }}; do
         sleep 1
         done
         
