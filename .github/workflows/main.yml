@@ -31,12 +31,6 @@ jobs:
     - name: Run the docker compose
       run: docker-compose up -d
 
-    - name: Check MySQL health
-      run: |
-        until mysqladmin ping -h 127.0.0.1 -u ${{secrets.DB_USERNAME}} -p ${{ secrets.DB_PASSWORD }}; do
-        sleep 1
-        done
-
     - name: Create MySQL User
       run: |
         echo "CREATE USER 'newuser'@'%' IDENTIFIED BY 'newpassword';" | mysql -h 127.0.0.1 -u ${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }}
