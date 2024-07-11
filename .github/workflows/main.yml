@@ -65,7 +65,8 @@ jobs:
         PORT: 5030
       run: |
         echo "Setting up database..."
-        mysql --host=mysql --user=$DB_USERNAME --password=$DB_PASSWORD --execute="CREATE DATABASE IF NOT EXISTS $DB_NAME;"      
+        mysql --host=127.0.0.1 --user=$DB_USERNAME --password=$DB_PASSWORD --execute="CREATE DATABASE IF NOT EXISTS $DB_NAME;"    
+        
     - name: Run tests
       env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
