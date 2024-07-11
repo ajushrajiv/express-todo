@@ -3,16 +3,6 @@ on: workflow_dispatch
 jobs: 
   test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: test-express-docker
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: testdb
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps: 
     - name: checkout
       uses: actions/checkout@v4
@@ -28,6 +18,17 @@ jobs:
     - name: Run the docker compose
       run: docker-compose up -d
       
+    - name: Set up MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+          host port: 3306
+          container port: 3306
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0'
+          mysql database: 'testdb'
+          mysql root password: ${{ secrets.DB_PASSWORD }}
+
     - name: Check MySQL health
       run: |
         until mysqladmin ping -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }}; do
