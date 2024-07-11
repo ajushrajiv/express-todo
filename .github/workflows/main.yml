@@ -45,6 +45,18 @@ jobs:
         "
     - name: Install Dependencies
       run: npm i
+
+    - name: Set up database
+      env:
+        DB_USERNAME: ${{secrets.DB_USERNAME}}
+        DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+        DB_NAME: test_task
+        PORT: 5030
+      run: |
+        echo "Setting up database..."
+        # Replace 'mysql' with your database client
+        mysql --host=localhost --user=$DB_USERNAME --password=$DB_PASSWORD --execute="CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+        mysql --host=localhost --user=$DB_USERNAME --password=$DB_PASSWORD --database=$DB_NAME --execute="CREATE TABLE IF NOT EXISTS test_task (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL);"
       
     - name: Run tests
       env:
@@ -52,6 +64,7 @@ jobs:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           DB_NAME: test_task
           PORT: 5030
+      
       run: npm run test
       
     - name: finish docker down
