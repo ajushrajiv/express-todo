@@ -20,7 +20,9 @@ jobs:
       uses: shogo82148/actions-setup-mysql@v1
       with:
         mysql-version: "8.0"
-
+        ports: 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        
     - name: Run database migration
       run: |
         mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} -e "
