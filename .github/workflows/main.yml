@@ -14,9 +14,6 @@ jobs:
 
     - name: Check Running containers
       run: docker ps
-
-    - name: Stop the running containers
-      run: docker stop $(docker ps -q)
         
     - name: Build the Docker images
       run: docker-compose build
