@@ -24,8 +24,8 @@ jobs:
 
     - name: Run database migration
       run: |
-        mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
-          GRANT ALL PRIVILEGES ON your_database.* TO '${{ secrets.MYSQL_USERNAME }}'@'%' IDENTIFIED BY '${{ secrets.MYSQL_PASSWORD }}';
+        mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} -e "
+          GRANT ALL PRIVILEGES ON your_database.* TO '${{ secrets.DB_USERNAME }}'@'%' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';
           FLUSH PRIVILEGES;
         "
     - name: Install Dependencies
