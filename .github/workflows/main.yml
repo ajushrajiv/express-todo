@@ -8,20 +8,30 @@ jobs:
     steps: 
     - name: checkout
       uses: actions/checkout@v4
+      
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '20.11.0'
+        
     - name: Build the Docker images
       run: docker-compose build
+      
     - name: Run the docker compose
       run: docker-compose up -d
+      
     - name: Set up MySQL
       uses: shogo82148/actions-setup-mysql@v1
       with:
         mysql-version: "8.0"
         ports: 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    - name: Check MySQL health
+      run: |
+        until mysqladmin ping -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }}; do
+        sleep 1
+        done
         
     - name: Run database migration
       run: |
@@ -31,6 +41,7 @@ jobs:
         "
     - name: Install Dependencies
       run: npm i
+      
     - name: Run tests
       env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
@@ -38,6 +49,7 @@ jobs:
           DB_NAME: test_task
           PORT: 5030
       run: npm run test
+      
     - name: finish docker down
       run: docker-compose down
 
